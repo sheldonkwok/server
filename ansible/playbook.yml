@@ -1,0 +1,10 @@
+---
+- hosts: personal-server
+  become: yes
+  tasks:
+  - name: test
+    shell: echo hi
+  - name: install htop
+    apt:
+      name: htop
+      update_cache: yes

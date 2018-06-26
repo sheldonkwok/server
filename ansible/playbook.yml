@@ -8,3 +8,13 @@
     apt:
       name: htop
       update_cache: yes
+
+  - name: install nginx
+    apt:
+      name: nginx
+      update_cache: yes
+
+  - name: copy new index.html
+    copy:
+      src: index.html
+      dest: /var/www/html

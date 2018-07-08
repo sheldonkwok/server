@@ -3,3 +3,5 @@ terraform.tfstate
 terraform.tfstate.backup
 playbook.retry
 inventory
+
+node_modules

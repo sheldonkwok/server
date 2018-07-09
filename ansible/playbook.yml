@@ -12,6 +12,7 @@
         - ca-certificates
         - curl
         - software-properties-common
+        - python-pip
 
   - name: add docker apt key
     apt_key:
@@ -30,10 +31,20 @@
       update_cache: true
       name: docker-ce
 
+  - name: install docker-py # For ansible usage
+    pip:
+      name: docker-py
+
   - name: copy nginx dir
     copy:
       src: ../nginx-server
       dest: /home/ubuntu/
+
+  - name: run docker nginx image
+    docker_container: # https://docs.ansible.com/ansible/latest/modules/docker_container_module.html#docker-container-module
+      name: nginx
+      image: nginx
+      ports: "8080:80"
 
   - name: copy node dir
     copy:

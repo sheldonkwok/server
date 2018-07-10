@@ -3,5 +3,6 @@ terraform.tfstate
 terraform.tfstate.backup
 playbook.retry
 inventory
+id_rsa.pub
 
 node_modules

@@ -21,10 +21,15 @@ data "aws_subnet" "default_a" {
   vpc_id            = "${data.aws_vpc.default.id}"
 }
 
+# git ignored to make cloning/forking easier
+data "local_file" "public_key" {
+  filename = "id_rsa.pub"
+}
+
 # SSH access to instance
 resource "aws_key_pair" "worklaptop" {
   key_name   = "worklaptop"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC7Q8SBz2iMh5RBNlZ9uc+5WhxPdslTBlefqZzeZEGJok0LA7kAIVfjtIKG2Go2Zp1pmZNhwa21Ad9tHs/YUY2pxZYUI/29qHGZSnvsg6yWI/3hQ3gQc4frCDCTo3Kf87xZmuIdvhxnmZ9VQBvh9Pzrye73FciU2r6NF2qoX9vX9ZSqjvlgk7YMDly/83gki7fdV5W4aIUQxiguHAlR0cHjwnh9ppSq9ch4uhl8RG11dm2fEx0iZDrD7glMGSexDp18u3d88ZbFjNc+vO6V7Xisl3OEZAVv1j2pdeIpLCdFE1toL0GKNIDQYnomRyLTiRVt6qNaY11fyHlrY842VFGB24kH/2AKzSyJfILSYmAmF5d545QhSapVj6e8f2AUv4NyVthRI+WR3D/g0S0YjL/ehK5E0w4FlROKc/xaVJ0C8A4vWIpZU6Kh795xxt70F2XQsfATDDAqkOJFjVRhaq/e2dNfu5R3G4stqVyen0yE/O1LdT64pISqiAcrXxRufvKtNT7CqkvxIo0nEZl1ZWcriAWj2d6uXGDTKWQ3AREXgG0W7pTjPHeUO2aXqrl+uiHIW291Rpn1u5jnUCGjf40za4hFV1qGFUSqjVYc1+yJCZ40FEt/mQqLV5ciyV+MLdSgT8sjuuVzm7F1u/ZJgU1ZXyDrPktUaHzL3OrtwILVtQ== jonathanli@jonathan-macbookpro15.local"
+  public_key = "${data.local_file.public_key.content}"
 }
 
 resource "aws_security_group_rule" "default_ingress" {

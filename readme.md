@@ -2,6 +2,18 @@
 
 ## Terraform
 
+### Setup
+
+We will copy our public keys to terraform so that we can reference it instead of copying the contents directly in.
+
+```bash
+cd terraform
+cp ~/.ssh/id_rsa.pub .
+terraform init
+```
+
+### Run
+
 ```bash
 cd terraform
 terraform apply

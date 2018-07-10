@@ -40,10 +40,16 @@
       src: ../nginx-server
       dest: /home/ubuntu/
 
+  - name: create local docker nginx image
+    docker_image:
+      dockerfile: nginx.dockerfile
+      name: local_nginx
+      path: /home/ubuntu/nginx-server
+
   - name: run docker nginx image
     docker_container: # https://docs.ansible.com/ansible/latest/modules/docker_container_module.html#docker-container-module
       name: nginx
-      image: nginx
+      image: local_nginx
       ports: "8080:80"
 
   - name: copy node dir
@@ -51,7 +57,34 @@
       src: ../node-server
       dest: /home/ubuntu/
 
+  - name: create local docker node image
+    docker_image:
+      dockerfile: node.dockerfile
+      name: local_node
+      path: /home/ubuntu/node-server
+
+
+  - name: run docker node image
+    docker_container: # https://docs.ansible.com/ansible/latest/modules/docker_container_module.html#docker-container-module
+      name: node
+      image: local_node
+      ports: "8081:8081"
+
   - name: copy python dir
     copy:
       src: ../python-server
       dest: /home/ubuntu/
+
+  - name: create local python image
+    docker_image:
+      dockerfile: python.dockerfile
+      name: local_python
+      path: /home/ubuntu/python-server
+
+
+  - name: run docker python image
+    docker_container: # https://docs.ansible.com/ansible/latest/modules/docker_container_module.html#docker-container-module
+      name: python
+      image: local_python
+      ports: "8082:5000"
+

@@ -1,5 +1,5 @@
 provider "aws" {
-  region  = "us-east-2"
+  region  = "us-west-2"
   profile = "personal"
 }
 
@@ -16,7 +16,7 @@ data "aws_security_group" "default" {
 
 # Represents which datacenter in us-west-2 to pick
 data "aws_subnet" "default_a" {
-  availability_zone = "us-east-2a"
+  availability_zone = "us-west-2a"
   default_for_az    = true
   vpc_id            = "${data.aws_vpc.default.id}"
 }
@@ -47,7 +47,7 @@ resource "aws_security_group_rule" "default_ingress" {
 }
 
 resource "aws_instance" "server" {
-  ami           = "ami-6a003c0f" # Base ubuntu image
+  ami           = "ami-ba602bc2" # Base ubuntu image
   instance_type = "t2.micro"     # Free tier instance size
 
   subnet_id = "${data.aws_subnet.default_a.id}"
@@ -80,4 +80,28 @@ resource "aws_instance" "server" {
   provisioner "local-exec" {
     command = "echo '[personal-server]\n${aws_instance.server.public_ip} ansible_ssh_user=ubuntu' > ../ansible/inventory"
   }
+}
+
+data "aws_route53_zone" "fmj_io" {
+  name = "fmj.io"
+}
+
+variable "ec2_subdomain" {
+  default = "ec2.fmj.io"
+}
+
+resource "aws_route53_record" "ec2_domain" {
+  zone_id = "${data.aws_route53_zone.fmj_io.id}"
+  name    = "${var.ec2_subdomain}"
+  type    = "A"
+  ttl     = "10"
+  records = ["${aws_instance.server.public_ip}"]
+}
+
+resource "aws_route53_record" "wildcard_ec2_domain" {
+  zone_id = "${data.aws_route53_zone.fmj_io.id}"
+  name    = "*.${var.ec2_subdomain}"
+  type    = "CNAME"
+  ttl     = "10"
+  records = ["${var.ec2_subdomain}"]
 }

@@ -34,6 +34,12 @@
       pip:
         name: docker-py
 
+    - name: add ubuntu user to docker
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
 #     - name: copy nginx dir
 #       copy:
 #         src: ../nginx-server

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+docker run \
+    --name caddy \
+    -v "$(pwd)/Caddyfile:/etc/Caddyfile" \
+    -v "$HOME/.caddy:/root/.caddy" \
+    -v "$HOME/workspace/slideshow/web:/opt/slideshow" \
+    -v /opt/www:/opt/www \
+    -e ACME_AGREE=true \
+    --net host \
+    --restart always \
+    -d \
+    abiosoft/caddy
+

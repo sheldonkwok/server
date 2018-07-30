@@ -12,6 +12,7 @@
           - curl
           - software-properties-common
           - python-pip
+          - fail2ban
 
     - name: add docker apt key
       apt_key:

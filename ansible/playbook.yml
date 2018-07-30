@@ -41,6 +41,14 @@
         groups: docker
         append: yes
 
+    - name: copy caddy runner
+      copy:
+        src: ./caddy-run
+        dest: /home/ubuntu
+        owner: ubuntu
+        group: ubuntu
+        mode: 0755
+
 #     - name: copy nginx dir
 #       copy:
 #         src: ../nginx-server

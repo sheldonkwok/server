@@ -1,0 +1,14 @@
+{
+  "name": "personal-server-now",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "micro"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "micro": "^9.3.3"
+  }
+}
